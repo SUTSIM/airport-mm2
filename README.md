@@ -3,6 +3,11 @@ Simulation of an airport with two lanes and different interarrival rate, assumin
 
 # How to Run?
 
+#### Using Docker
 - Open `terminal` in current directory.  
 - Run the following command to build container  
   `$ docker build -t airportmm2 .`
+
+#### Using R-base
+- If you have Rlang installed simply run  
+  `$ Rscript main.R`
