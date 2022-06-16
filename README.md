@@ -25,3 +25,8 @@ Simulation of an airport with two lanes and different interarrival rate, assumin
 ![](assets/activity_time.png)
 ![](assets/waiting_time.png)
 ![](assets/total_time.png)
+
+
+<style>
+img{width: 50%;}
+</style>
