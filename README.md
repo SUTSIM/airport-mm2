@@ -11,3 +11,17 @@ Simulation of an airport with two lanes and different interarrival rate, assumin
 #### Using R-base
 - If you have Rlang installed simply run  
   `$ Rscript main.R`
+
+
+# Final Generated Results
+
+### Reports
+
+[Arrivals data](assets/arrivals.csv)  
+[Airport full log](assets/logs.csv)
+
+### Charts
+
+![](assets/activity_time.png)
+![](assets/waiting_time.png)
+![](assets/total_time.png)

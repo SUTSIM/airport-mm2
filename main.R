@@ -42,10 +42,10 @@ airport <-
 
 
 # Run
-writeLines("\n\n>>>> Events\n")
-run_value <- run(airport, until = 1000000)
+writeLines("\n>>>> Events\n")
+run_value <- run(airport, until = 1000)
 
-# Values
+# Monitored values
 airport_resources <- get_mon_resources(airport)
 airport_attributes <- get_mon_attributes(airport)
 airport_arrivals <- get_mon_arrivals(airport) %>%
@@ -62,13 +62,13 @@ airport_arrivals <- get_mon_arrivals(airport) %>%
     replication = NULL
   )
 
-
-# Log
 writeLines("\n\n>>>> Minitoring\n")
 print(airport_arrivals)
+write.csv(airport_arrivals, file = "assets/arrivals.csv")
 
 
 # Plot
+png(filename = "assets/activity_time.png")
 hist(
   x = airport_arrivals$activity_time,
   main = "Activity Times Frequency",
@@ -77,6 +77,8 @@ hist(
   border = "#004900",
   breaks = 20,
 )
+
+png(filename = "assets/waiting_time.png")
 hist(
   x = airport_arrivals$waiting_time,
   main = "Waiting Times Frequency",
@@ -85,6 +87,8 @@ hist(
   border = "#630035",
   breaks = 20,
 )
+
+png(filename = "assets/total_time.png")
 hist(
   x = airport_arrivals$activity_time + airport_arrivals$waiting_time,
   main = "Total Times Frequency",
@@ -93,3 +97,5 @@ hist(
   border = "#7d4900",
   breaks = 20,
 )
+
+dev.off()
