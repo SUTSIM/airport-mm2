@@ -2,7 +2,6 @@
 # assuming a system of M/M/2.
 
 library(simmer)
-library(simmer.plot)
 
 set.seed(1269)
 
@@ -20,7 +19,7 @@ plane <-
     paste("Waited: \t\t\t", get_attribute(airport, "waiting_time"))
   }) %>%
   set_attribute("activity_time", function() {
-    rexp(1, 1 / 12)
+    rexp(n = 1, rate = 1 / 20)
   }) %>%
   timeout(function() {
     get_attribute(airport, "activity_time")
@@ -36,15 +35,15 @@ plane <-
 airport <-
   simmer("airport") %>%
   add_resource("lane", 2) %>%
-  add_generator("Airplane", plane, function() {
-    c(0, rexp(4, 1 / 10), -1)
+  add_generator("Airplane", plane, distribution = function() {
+    c(0, rpois(n = 40, lambda = 21), -1)
   })
 
 
 
 # Run
 writeLines("\n\n>>>> Events\n")
-run_value <- run(airport, until = 400)
+run_value <- run(airport, until = 1000000)
 
 # Values
 airport_resources <- get_mon_resources(airport)
@@ -68,10 +67,29 @@ airport_arrivals <- get_mon_arrivals(airport) %>%
 writeLines("\n\n>>>> Minitoring\n")
 print(airport_arrivals)
 
-# Plot
-plot(
-  x = airport_arrivals,
-  metric = c("activity_time", "waiting_time", "flow_time")
-)
 
-warnings()
+# Plot
+hist(
+  x = airport_arrivals$activity_time,
+  main = "Activity Times Frequency",
+  xlab = "Activity Time",
+  col = "#008900",
+  border = "#004900",
+  breaks = 20,
+)
+hist(
+  x = airport_arrivals$waiting_time,
+  main = "Waiting Times Frequency",
+  xlab = "Waiting Time",
+  col = "#9a0052",
+  border = "#630035",
+  breaks = 20,
+)
+hist(
+  x = airport_arrivals$activity_time + airport_arrivals$waiting_time,
+  main = "Total Times Frequency",
+  xlab = "Total Time",
+  col = "#b36900",
+  border = "#7d4900",
+  breaks = 20,
+)
