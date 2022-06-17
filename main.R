@@ -23,7 +23,7 @@ plane <-
     paste("Waited: \t", get_attribute(airport, "waiting_time"))
   }) %>%
   set_attribute("activity_time", function() {
-    round(rexp(n = 1, rate = 1 / 20), digits = 2)
+    round(rexp(n = 1, rate = 1 / 25), digits = 2)
   }) %>%
   timeout(function() {
     get_attribute(airport, "activity_time")
@@ -109,16 +109,21 @@ hist(
   breaks = 10,
 )
 x <- dev.off()
-
+dataaa <- cbind(arrivals$total_time, arrivals$waiting_time)
+ticks <- c("time", "wait")
 total_time_box_path <- "assets/total_time_box.png"
 png(filename = total_time_box_path)
 boxplot(
-  arrivals$total_time,
+  dataaa,
+  # beside = T,
+  # xaxp = c("time", "wait", "2"),
   main = "Boxplot Total Time",
   xlab = "Runs",
+  xaxt = "n",
   ylab = "Total Time",
   col = "#00b3a1"
 )
+axis(1, at = 1:2, labels = c("total time", "waiting time"))
 x <- dev.off()
 
 options(warn = -1)
@@ -142,9 +147,9 @@ plot(resources,
   steps = TRUE
 )
 x <- dev.off()
-
-if (.Platform$OS.type != "unix") {
-  shell.exec(file.path(getwd(), activity_time_path))
-  shell.exec(file.path(getwd(), waiting_time_path))
-  shell.exec(file.path(getwd(), total_time_path))
-}
+print(arrivals$waiting_time)
+# if (.Platform$OS.type != "unix") {
+#   shell.exec(file.path(getwd(), activity_time_path))
+#   shell.exec(file.path(getwd(), waiting_time_path))
+#   shell.exec(file.path(getwd(), total_time_path))
+# }
