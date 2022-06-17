@@ -4,7 +4,10 @@
 # assuming a system of M/M/2.
 
 library(simmer)
+library(simmer.plot)
+
 set.seed(1269)
+airport <- simmer()
 
 plane <-
   trajectory("Airplane's path") %>%
@@ -121,4 +124,12 @@ result <- tryCatch(
   error = function(cond) {
     message(cond)
   }
+)
+
+plot(bank,
+  what = "resources",
+  metric = "usage",
+  names = "counter",
+  items = "system",
+  steps = TRUE
 )
