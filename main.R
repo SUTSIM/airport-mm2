@@ -4,7 +4,6 @@
 # assuming a system of M/M/2.
 
 library(simmer)
-
 set.seed(1269)
 
 plane <-
@@ -18,7 +17,7 @@ plane <-
     now(airport) - get_attribute(airport, "start_time")
   }) %>%
   log_(function() {
-    paste("Waited: \t\t\t", get_attribute(airport, "waiting_time"))
+    paste("Waited: \t", get_attribute(airport, "waiting_time"))
   }) %>%
   set_attribute("activity_time", function() {
     round(rexp(n = 1, rate = 1 / 20), digits = 2)
@@ -27,11 +26,12 @@ plane <-
     get_attribute(airport, "activity_time")
   }) %>%
   release("lane") %>%
+  log_("Finished") %>%
   log_(function() {
     spent_time <-
       get_attribute(airport, "waiting_time") +
       get_attribute(airport, "activity_time")
-    paste("Finished, Total spent: \t", spent_time)
+    paste("Total: \t", spent_time)
   })
 
 airport <-
@@ -55,11 +55,12 @@ airport_arrivals <- get_mon_arrivals(airport) %>%
     name = name,
     start_time = start_time,
     end_time = end_time,
-    activity_time = activity_time,
+    service_time = activity_time,
     waiting_time = (function() {
-      x <- end_time - start_time - activity_time
+      x <- round(end_time - start_time - activity_time, digits = 2)
       ifelse(x > 0, x, 0)
     })(),
+    activity_time = NULL,
     finished = NULL,
     replication = NULL
   )
@@ -70,42 +71,54 @@ write.csv(airport_arrivals, file = "assets/arrivals.csv")
 
 
 # Plot
-activity_time_path <- "assets/activity_time.png"
-png(filename = activity_time_path)
-activity_time_hist <- hist(
-  x = airport_arrivals$activity_time,
-  main = "Activity Times Frequency",
-  xlab = "Activity Time",
-  col = "#008900",
-  border = "#004900",
-  breaks = 10,
-)
-dev.off()
+result <- tryCatch(
+  expr <- function() {
+    activity_time_path <- "assets/activity_time.png"
+    png(filename = activity_time_path)
+    activity_time_hist <- hist(
+      x = airport_arrivals$activity_time,
+      main = "Activity Times Frequency",
+      xlab = "Activity Time",
+      col = "#008900",
+      border = "#004900",
+      breaks = 10,
+    )
+    dev.off()
 
-waiting_time_path <- "assets/waiting_time.png"
-png(filename = waiting_time_path)
-waiting_time_hist <- hist(
-  x = airport_arrivals$waiting_time,
-  main = "Waiting Times Frequency",
-  xlab = "Waiting Time",
-  col = "#9a0052",
-  border = "#630035",
-  breaks = 10,
-)
-dev.off()
+    waiting_time_path <- "assets/waiting_time.png"
+    png(filename = waiting_time_path)
+    waiting_time_hist <- hist(
+      x = airport_arrivals$waiting_time,
+      main = "Waiting Times Frequency",
+      xlab = "Waiting Time",
+      col = "#9a0052",
+      border = "#630035",
+      breaks = 10,
+    )
+    dev.off()
 
-total_time_path <- "assets/total_time.png"
-png(filename = total_time_path)
-total_time_hist <- hist(
-  x = airport_arrivals$activity_time + airport_arrivals$waiting_time,
-  main = "Total Times Frequency",
-  xlab = "Total Time",
-  col = "#b36900",
-  border = "#7d4900",
-  breaks = 10,
-)
-dev.off()
+    total_time_path <- "assets/total_time.png"
+    png(filename = total_time_path)
+    total_time_hist <- hist(
+      x = airport_arrivals$activity_time + airport_arrivals$waiting_time,
+      main = "Total Times Frequency",
+      xlab = "Total Time",
+      col = "#b36900",
+      border = "#7d4900",
+      breaks = 10,
+    )
+    dev.off()
 
-# shell.exec(file.path(getwd(), total_time_path))
-# shell.exec(file.path(getwd(), activity_time_path))
-# shell.exec(file.path(getwd(), waiting_time_path))
+    if (.Platform$OS.type != "unix") {
+      shell.exec(file.path(getwd(), activity_time_path))
+      shell.exec(file.path(getwd(), waiting_time_path))
+      shell.exec(file.path(getwd(), total_time_path))
+    }
+  },
+  warning = function(cond) {
+    message(cond)
+  },
+  error = function(cond) {
+    message(cond)
+  }
+)
