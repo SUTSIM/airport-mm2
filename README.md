@@ -23,7 +23,10 @@ Simulation of an airport with two lanes and different interarrival rate, assumin
 ### Charts
 
 <p align="left">
-  <img src="assets/activity_time.png" width="75%"/>
-  <img src="assets/waiting_time.png" width="75%"/>
-  <img src="assets/total_time.png" width="75%"/>
+  <img src="assets/activity_time.png" width="45%"/>
+  &nbsp; 
+  <img src="assets/waiting_time.png" width="45%"/>
+  &nbsp;
+  <img src="assets/total_time.png" width="45%"/>
 </p>
+
