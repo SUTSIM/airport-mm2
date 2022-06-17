@@ -19,16 +19,45 @@ Simulation of an airport with two lanes and different interarrival rate, assumin
 
 ### Reports
 
-[Arrivals data](assets/arrivals.csv)
+[Arrivals data](assets/arrivals.csv)  
 [Airrivals step-by-step log](assets/steps.log)
 
-### Charts
+### Charts for Multiple Runs
 
 <p align="left">
-   <img src="assets/activity_time.png" width="45%"/>
-   <img src="assets/waiting_time.png" width="45%"/>
-   <img src="assets/total_time.png" width="45%"/>
-   <img src="assets/total_time_box.png" width="45%"/>
-   <img src="assets/mon.png" width="45%"/>
-   <img src="assets/res_usage.png" width="45%"/>
+  <h5>Activity Times</h5>
+  <img src="assets/activity_time1.png" width="45%"/>
+  <img src="assets/activity_time2.png" width="45%"/>
+  <img src="assets/activity_time3.png" width="45%"/>
+  <img src="assets/activity_time4.png" width="45%"/>
+
+  <h5>Waiting Times</h5>
+  <img src="assets/waiting_time1.png" width="45%"/>
+  <img src="assets/waiting_time2.png" width="45%"/>
+  <img src="assets/waiting_time3.png" width="45%"/>
+  <img src="assets/waiting_time4.png" width="45%"/>
+  
+  <h5>Total Times</h5>
+  <img src="assets/total_time1.png" width="45%"/>
+  <img src="assets/total_time2.png" width="45%"/>
+  <img src="assets/total_time3.png" width="45%"/>
+  <img src="assets/total_time4.png" width="45%"/>
+
+  <h5>Total Times - Boxplot</h5>
+  <img src="assets/total_time_box1.png" width="45%"/>
+  <img src="assets/total_time_box2.png" width="45%"/>
+  <img src="assets/total_time_box3.png" width="45%"/>
+  <img src="assets/total_time_box4.png" width="45%"/>
+  
+  <h5>Resource Usage</h5>
+  <img src="assets/mon1.png" width="45%"/>
+  <img src="assets/mon2.png" width="45%"/>
+  <img src="assets/mon3.png" width="45%"/>
+  <img src="assets/mon4.png" width="45%"/>
+  
+  <h5>Resource Usage</h5>
+  <img src="assets/res_usage1.png" width="45%"/>
+  <img src="assets/res_usage2.png" width="45%"/>
+  <img src="assets/res_usage3.png" width="45%"/>
+  <img src="assets/res_usage4.png" width="45%"/>
 </p>
