@@ -20,7 +20,7 @@ Simulation of an airport with two lanes and different interarrival rate, assumin
 ### Reports
 
 [Arrivals data](assets/arrivals.csv)
-[Airport full log](assets/logs.csv)
+[Airrivals step-by-step log](assets/steps.log)
 
 ### Charts
 
