@@ -29,6 +29,6 @@ Simulation of an airport with two lanes and different interarrival rate, assumin
    <img src="assets/waiting_time.png" width="45%"/>
    <img src="assets/total_time.png" width="45%"/>
    <img src="assets/time_spent.png" width="45%"/>
-   <img src="assets/mon.png" width="90.8%"/>
-   <img src="assets/res_usage.png" width="90.8%"/>
+   <img src="assets/mon.png" width="91%"/>
+   <img src="assets/res_usage.png" width="91%"/>
 </p>
