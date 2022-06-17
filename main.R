@@ -21,7 +21,7 @@ plane <-
     paste("Waited: \t\t\t", get_attribute(airport, "waiting_time"))
   }) %>%
   set_attribute("activity_time", function() {
-    rexp(n = 1, rate = 1 / 20)
+    round(rexp(n = 1, rate = 1 / 20))
   }) %>%
   timeout(function() {
     get_attribute(airport, "activity_time")
@@ -79,6 +79,7 @@ hist(
   border = "#004900",
   breaks = 20,
 )
+dev.off()
 
 png(filename = "assets/waiting_time.png")
 hist(
@@ -89,6 +90,7 @@ hist(
   border = "#630035",
   breaks = 20,
 )
+dev.off()
 
 png(filename = "assets/total_time.png")
 hist(
@@ -99,5 +101,4 @@ hist(
   border = "#7d4900",
   breaks = 20,
 )
-
 dev.off()
