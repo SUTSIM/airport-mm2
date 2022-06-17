@@ -44,8 +44,6 @@ airport <-
     c(0, rpois(n = 40, lambda = 21), -1)
   })
 
-
-
 # Run
 writeLines("\n>>>> Events\n")
 run_value <- run(airport, until = 1000)
@@ -70,7 +68,6 @@ writeLines("\n\n>>>> Minitoring\n")
 df <- subset(arrivals, select = -c(replication, finished))
 print(df)
 
-
 # Plot
 activity_time_path <- "assets/activity_time.png"
 png(filename = activity_time_path)
@@ -82,8 +79,7 @@ hist(
   border = "#004900",
   breaks = 10,
 )
-x <- dev.off()
-
+t <- dev.off()
 
 waiting_time_path <- "assets/waiting_time.png"
 png(filename = waiting_time_path)
@@ -95,8 +91,7 @@ hist(
   border = "#630035",
   breaks = 10,
 )
-x <- dev.off()
-
+t <- dev.off()
 
 total_time_path <- "assets/total_time.png"
 png(filename = total_time_path)
@@ -108,23 +103,21 @@ hist(
   border = "#7d4900",
   breaks = 10,
 )
-x <- dev.off()
-dataaa <- cbind(arrivals$total_time, arrivals$waiting_time)
-ticks <- c("time", "wait")
+t <- dev.off()
+
+data <- cbind(arrivals$total_time, arrivals$waiting_time)
 total_time_box_path <- "assets/total_time_box.png"
 png(filename = total_time_box_path)
 boxplot(
-  dataaa,
-  # beside = T,
-  # xaxp = c("time", "wait", "2"),
+  data,
   main = "Boxplot Total Time",
   xlab = "Runs",
   xaxt = "n",
   ylab = "Total Time",
-  col = "#00b3a1"
+  col = "#00b3a1",
 )
 axis(1, at = 1:2, labels = c("total time", "waiting time"))
-x <- dev.off()
+t <- dev.off()
 
 options(warn = -1)
 sys_mon_path <- "assets/sys_mon.png"
@@ -135,7 +128,7 @@ plot(
   metric = NULL,
   main = "Monitored",
 )
-x <- dev.off()
+t <- dev.off()
 
 res_usage_path <- "assets/res_usage.png"
 png(filename = res_usage_path)
@@ -146,10 +139,13 @@ plot(resources,
   items = "system",
   steps = TRUE
 )
-x <- dev.off()
-print(arrivals$waiting_time)
-# if (.Platform$OS.type != "unix") {
-#   shell.exec(file.path(getwd(), activity_time_path))
-#   shell.exec(file.path(getwd(), waiting_time_path))
-#   shell.exec(file.path(getwd(), total_time_path))
-# }
+t <- dev.off()
+
+# open files directory in explorer
+assets_dir <- file.path(getwd(), "assets")
+if (.Platform$OS.type == "windows") {
+  shell.exec(assets_dir)
+} else {
+  options(browser = "firefox")
+  utils::browseURL(assets_dir, browser = getOption("browser"))
+}

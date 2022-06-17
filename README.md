@@ -19,7 +19,7 @@ Simulation of an airport with two lanes and different interarrival rate, assumin
 
 ### Reports
 
-[Arrivals data](assets/arrivals.csv)
+[Arrivals data](assets/arrivals.csv)  
 [Airrivals step-by-step log](assets/steps.log)
 
 ### Charts
@@ -29,6 +29,6 @@ Simulation of an airport with two lanes and different interarrival rate, assumin
    <img src="assets/waiting_time.png" width="45%"/>
    <img src="assets/total_time.png" width="45%"/>
    <img src="assets/total_time_box.png" width="45%"/>
-   <img src="assets/mon.png" width="45%"/>
+   <img src="assets/sys_mon.png" width="45%"/>
    <img src="assets/res_usage.png" width="45%"/>
 </p>
