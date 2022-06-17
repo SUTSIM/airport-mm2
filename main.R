@@ -51,85 +51,99 @@ writeLines("\n>>>> Events\n")
 run_value <- run(airport, until = 1000)
 
 # Monitored values
-airport_resources <- get_mon_resources(airport)
-airport_attributes <- get_mon_attributes(airport)
-airport_arrivals <- get_mon_arrivals(airport) %>%
+resources <- get_mon_resources(airport)
+attributes <- get_mon_attributes(airport)
+arrivals <- get_mon_arrivals(airport) %>%
   transform(
     name = name,
     start_time = start_time,
     end_time = end_time,
-    service_time = activity_time,
+    activity_time = activity_time,
     waiting_time = (function() {
       x <- round(end_time - start_time - activity_time, digits = 2)
       ifelse(x > 0, x, 0)
     })(),
-    activity_time = NULL,
     finished = NULL,
     replication = NULL
   )
 
 writeLines("\n\n>>>> Minitoring\n")
-print(airport_arrivals)
-write.csv(airport_arrivals, file = "assets/arrivals.csv")
+print(arrivals)
+write.csv(arrivals, file = "assets/arrivals.csv")
 
 
 # Plot
-result <- tryCatch(
-  expr <- function() {
-    activity_time_path <- "assets/activity_time.png"
-    png(filename = activity_time_path)
-    activity_time_hist <- hist(
-      x = airport_arrivals$activity_time,
-      main = "Activity Times Frequency",
-      xlab = "Activity Time",
-      col = "#008900",
-      border = "#004900",
-      breaks = 10,
-    )
-    dev.off()
-
-    waiting_time_path <- "assets/waiting_time.png"
-    png(filename = waiting_time_path)
-    waiting_time_hist <- hist(
-      x = airport_arrivals$waiting_time,
-      main = "Waiting Times Frequency",
-      xlab = "Waiting Time",
-      col = "#9a0052",
-      border = "#630035",
-      breaks = 10,
-    )
-    dev.off()
-
-    total_time_path <- "assets/total_time.png"
-    png(filename = total_time_path)
-    total_time_hist <- hist(
-      x = airport_arrivals$activity_time + airport_arrivals$waiting_time,
-      main = "Total Times Frequency",
-      xlab = "Total Time",
-      col = "#b36900",
-      border = "#7d4900",
-      breaks = 10,
-    )
-    dev.off()
-
-    if (.Platform$OS.type != "unix") {
-      shell.exec(file.path(getwd(), activity_time_path))
-      shell.exec(file.path(getwd(), waiting_time_path))
-      shell.exec(file.path(getwd(), total_time_path))
-    }
-  },
-  warning = function(cond) {
-    message(cond)
-  },
-  error = function(cond) {
-    message(cond)
-  }
+activity_time_path <- "assets/activity_time.png"
+png(filename = activity_time_path)
+hist(
+  x = arrivals$activity_time,
+  main = "Activity Times Frequency",
+  xlab = "Activity Time",
+  col = "#008900",
+  border = "#004900",
+  breaks = 10,
 )
+dev.off()
 
-plot(bank,
+waiting_time_path <- "assets/waiting_time.png"
+png(filename = waiting_time_path)
+hist(
+  x = arrivals$waiting_time,
+  main = "Waiting Times Frequency",
+  xlab = "Waiting Time",
+  col = "#9a0052",
+  border = "#630035",
+  breaks = 10,
+)
+dev.off()
+
+total_time_path <- "assets/total_time.png"
+png(filename = total_time_path)
+hist(
+  x = arrivals$activity_time + arrivals$waiting_time,
+  main = "Total Times Frequency",
+  xlab = "Total Time",
+  col = "#b36900",
+  border = "#7d4900",
+  breaks = 10,
+)
+dev.off()
+
+time_spent_path <- "assets/time_spent.png"
+png(filename = time_spent_path)
+hist(
+  x = arrivals$end_time - arrivals$start_time,
+  main = "Spent Times Frequency",
+  xlab = "Spent Time",
+  col = "#00b3a1",
+  border = "#00675c",
+  breaks = 10,
+)
+dev.off()
+
+mon_path <- "assets/mon.png"
+png(filename = mon_path)
+plot(
+  airport,
+  what = c("resources", "arrivals", "attributes"),
+  metric = NULL,
+  main = "Monitored",
+)
+dev.off()
+
+res_usage_path <- "assets/res_usage.png"
+png(filename = res_usage_path)
+plot(resources,
   what = "resources",
   metric = "usage",
-  names = "counter",
+  names = "lane",
   items = "system",
   steps = TRUE
 )
+dev.off()
+
+if (.Platform$OS.type != "unix") {
+  shell.exec(file.path(getwd(), activity_time_path))
+  shell.exec(file.path(getwd(), waiting_time_path))
+  shell.exec(file.path(getwd(), total_time_path))
+}

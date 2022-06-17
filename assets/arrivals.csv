@@ -1,4 +1,4 @@
-"","name","start_time","end_time","service_time","waiting_time"
+"","name","start_time","end_time","activity_time","waiting_time"
 "1","Airplane0",0,4.88,4.88,0
 "2","Airplane1",23,64.87,41.87,0
 "3","Airplane2",45,104.29,59.29,0
