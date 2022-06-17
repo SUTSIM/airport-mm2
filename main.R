@@ -70,8 +70,9 @@ write.csv(airport_arrivals, file = "assets/arrivals.csv")
 
 
 # Plot
-png(filename = "assets/activity_time.png")
-hist(
+activity_time_path <- "assets/activity_time.png"
+png(filename = activity_time_path)
+activity_time_hist <- hist(
   x = airport_arrivals$activity_time,
   main = "Activity Times Frequency",
   xlab = "Activity Time",
@@ -81,8 +82,9 @@ hist(
 )
 dev.off()
 
-png(filename = "assets/waiting_time.png")
-hist(
+waiting_time_path <- "assets/waiting_time.png"
+png(filename = waiting_time_path)
+waiting_time_hist <- hist(
   x = airport_arrivals$waiting_time,
   main = "Waiting Times Frequency",
   xlab = "Waiting Time",
@@ -92,8 +94,9 @@ hist(
 )
 dev.off()
 
-png(filename = "assets/total_time.png")
-hist(
+total_time_path <- "assets/total_time.png"
+png(filename = total_time_path)
+total_time_hist <- hist(
   x = airport_arrivals$activity_time + airport_arrivals$waiting_time,
   main = "Total Times Frequency",
   xlab = "Total Time",
@@ -102,3 +105,7 @@ hist(
   breaks = 10,
 )
 dev.off()
+
+# shell.exec(file.path(getwd(), total_time_path))
+# shell.exec(file.path(getwd(), activity_time_path))
+# shell.exec(file.path(getwd(), waiting_time_path))
