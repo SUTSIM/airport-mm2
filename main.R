@@ -31,10 +31,10 @@ plane <-
   release("lane") %>%
   log_("Finished") %>%
   log_(function() {
-    spent_time <-
+    total_time <-
       get_attribute(airport, "waiting_time") +
       get_attribute(airport, "activity_time")
-    paste("Total: \t", spent_time)
+    paste("Total: \t", total_time)
   })
 
 airport <-
@@ -55,21 +55,20 @@ resources <- get_mon_resources(airport)
 attributes <- get_mon_attributes(airport)
 arrivals <- get_mon_arrivals(airport) %>%
   transform(
-    name = name,
-    start_time = start_time,
-    end_time = end_time,
-    activity_time = activity_time,
     waiting_time = (function() {
       x <- round(end_time - start_time - activity_time, digits = 2)
       ifelse(x > 0, x, 0)
     })(),
-    finished = NULL,
-    replication = NULL
+    total_time = (function() {
+      x <- round(end_time - start_time, digits = 2)
+      ifelse(x > 0, x, 0)
+    })()
   )
 
-writeLines("\n\n>>>> Minitoring\n")
-print(arrivals)
 write.csv(arrivals, file = "assets/arrivals.csv")
+writeLines("\n\n>>>> Minitoring\n")
+df <- subset(arrivals, select = -c(replication, finished))
+print(df)
 
 
 # Plot
@@ -102,7 +101,7 @@ x <- dev.off()
 total_time_path <- "assets/total_time.png"
 png(filename = total_time_path)
 hist(
-  x = arrivals$activity_time + arrivals$waiting_time,
+  x = arrivals$total_time,
   main = "Total Times Frequency",
   xlab = "Total Time",
   col = "#b36900",
@@ -111,16 +110,14 @@ hist(
 )
 x <- dev.off()
 
-
-time_spent_path <- "assets/time_spent.png"
-png(filename = time_spent_path)
-hist(
-  x = arrivals$end_time - arrivals$start_time,
-  main = "Spent Times Frequency",
-  xlab = "Spent Time",
-  col = "#00b3a1",
-  border = "#00675c",
-  breaks = 10,
+total_time_box_path <- "assets/total_time_box.png"
+png(filename = total_time_box_path)
+boxplot(
+  arrivals$total_time,
+  main = "Boxplot Total Time",
+  xlab = "Runs",
+  ylab = "Total Time",
+  col = "#00b3a1"
 )
 x <- dev.off()
 
