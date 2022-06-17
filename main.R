@@ -83,7 +83,8 @@ hist(
   border = "#004900",
   breaks = 10,
 )
-dev.off()
+x <- dev.off()
+
 
 waiting_time_path <- "assets/waiting_time.png"
 png(filename = waiting_time_path)
@@ -95,7 +96,8 @@ hist(
   border = "#630035",
   breaks = 10,
 )
-dev.off()
+x <- dev.off()
+
 
 total_time_path <- "assets/total_time.png"
 png(filename = total_time_path)
@@ -107,7 +109,8 @@ hist(
   border = "#7d4900",
   breaks = 10,
 )
-dev.off()
+x <- dev.off()
+
 
 time_spent_path <- "assets/time_spent.png"
 png(filename = time_spent_path)
@@ -119,17 +122,18 @@ hist(
   border = "#00675c",
   breaks = 10,
 )
-dev.off()
+x <- dev.off()
 
-mon_path <- "assets/mon.png"
-png(filename = mon_path)
+options(warn = -1)
+sys_mon_path <- "assets/sys_mon.png"
+png(filename = sys_mon_path)
 plot(
   airport,
   what = c("resources", "arrivals", "attributes"),
   metric = NULL,
   main = "Monitored",
 )
-dev.off()
+x <- dev.off()
 
 res_usage_path <- "assets/res_usage.png"
 png(filename = res_usage_path)
@@ -140,7 +144,7 @@ plot(resources,
   items = "system",
   steps = TRUE
 )
-dev.off()
+x <- dev.off()
 
 if (.Platform$OS.type != "unix") {
   shell.exec(file.path(getwd(), activity_time_path))
