@@ -7,16 +7,17 @@ library(simmer)
 library(simmer.plot)
 library(parallel)
 
+
 seeds <- c(393943, 100005, 777999555, 1269)
-envs <- mclapply(seeds, function(s) {
+mclapply(seeds, function(s) {
   set.seed(s)
 
   i <- which(seeds == s, arr.ind = TRUE)
-  airport <- simmer()
-
   gen_path <- function(path) {
     gsub("0", i, path)
   }
+
+  airport <- simmer()
 
   plane <-
     trajectory("Airplane's path") %>%
@@ -73,7 +74,7 @@ envs <- mclapply(seeds, function(s) {
     border = "#004900",
     breaks = 10,
   )
-  x <- dev.off()
+  dev.off()
 
   waiting_time_path <- gen_path("assets/waiting_time0.png")
   png(filename = waiting_time_path)
@@ -85,7 +86,7 @@ envs <- mclapply(seeds, function(s) {
     border = "#630035",
     breaks = 10,
   )
-  x <- dev.off()
+  dev.off()
 
   total_time_path <- gen_path("assets/total_time0.png")
   png(filename = total_time_path)
@@ -97,7 +98,7 @@ envs <- mclapply(seeds, function(s) {
     border = "#7d4900",
     breaks = 10,
   )
-  x <- dev.off()
+  dev.off()
 
   total_time_box_path <- gen_path("assets/total_time_box0.png")
   png(filename = total_time_box_path)
@@ -108,7 +109,7 @@ envs <- mclapply(seeds, function(s) {
     ylab = "Total Time",
     col = "#00b3a1"
   )
-  x <- dev.off()
+  dev.off()
 
   sys_mon_path <- gen_path("assets/sys_mon0.png")
   png(filename = sys_mon_path)
@@ -118,30 +119,25 @@ envs <- mclapply(seeds, function(s) {
     metric = NULL,
     main = "Monitored",
   )
-  x <- dev.off()
+  dev.off()
 
-  res_usage_path <- gen_path("assets/res_usage0.png")
-  png(filename = res_usage_path)
-  plot(resources,
-    what = "resources",
-    metric = "usage",
-    names = "lane",
-    items = "system",
-    steps = TRUE
-  )
-  x <- dev.off()
+  paint <- function() {
+    res_usage_path <- gen_path("assets/res_usage0.png")
+    png(filename = res_usage_path)
+    x <- plot(resources,
+      what = "resources",
+      metric = "usage",
+      names = "lane",
+      items = "system",
+      steps = TRUE
+    )
+    dev.off()
+  }
+  paint()
 
 
   paste(
     "Average wait for ", sum(arrivals$finished), " completions was ",
     mean(arrivals$waiting_time), "minutes."
   )
-
-  airport
-})
-
-envs %>%
-  get_mon_arrivals() %>%
-  head()
-
-warnings()
+}) %>% unlist() # nolint
