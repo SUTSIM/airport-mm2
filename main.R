@@ -109,12 +109,12 @@ hist(
   breaks = 10,
 )
 x <- dev.off()
-dataaa <- cbind(arrivals$total_time, arrivals$waiting_time)
+data <- cbind(arrivals$total_time, arrivals$waiting_time)
 ticks <- c("time", "wait")
 total_time_box_path <- "assets/total_time_box.png"
 png(filename = total_time_box_path)
 boxplot(
-  dataaa,
+  data,
   main = "Boxplot Total Time",
   xlab = "Runs",
   xaxt = "n",
@@ -123,6 +123,9 @@ boxplot(
 )
 axis(1, at = 1:2, labels = c("total time", "waiting time"))
 x <- dev.off()
+
+# Commenting reason: plots not working on WindowsOS
+# If you are unix-base, please uncomment
 
 # options(warn = -1)
 # sys_mon_path <- "assets/sys_mon.png"
@@ -147,8 +150,11 @@ x <- dev.off()
 # x <- dev.off()
 
 
-if (.Platform$OS.type != "unix") {
-  shell.exec(file.path(getwd(), activity_time_path))
-  shell.exec(file.path(getwd(), waiting_time_path))
-  shell.exec(file.path(getwd(), total_time_path))
+# open files directory in explorer
+assets_dir <- file.path(getwd(), "assets")
+if (.Platform$OS.type == "windows") {
+  shell.exec(assets_dir)
+} else {
+  options(browser = "firefox")
+  utils::browseURL(assets_dir, browser = getOption("browser"))
 }
