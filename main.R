@@ -115,8 +115,6 @@ total_time_box_path <- "assets/total_time_box.png"
 png(filename = total_time_box_path)
 boxplot(
   dataaa,
-  # beside = T,
-  # xaxp = c("time", "wait", "2"),
   main = "Boxplot Total Time",
   xlab = "Runs",
   xaxt = "n",
@@ -126,28 +124,30 @@ boxplot(
 axis(1, at = 1:2, labels = c("total time", "waiting time"))
 x <- dev.off()
 
-options(warn = -1)
-sys_mon_path <- "assets/sys_mon.png"
-png(filename = sys_mon_path)
-plot(
-  airport,
-  what = c("resources", "arrivals", "attributes"),
-  metric = NULL,
-  main = "Monitored",
-)
-x <- dev.off()
+if (.Platform$OS == "unix") {
+  options(warn = -1)
+  sys_mon_path <- "assets/sys_mon.png"
+  png(filename = sys_mon_path)
+  plot(
+    airport,
+    what = c("resources", "arrivals", "attributes"),
+    metric = NULL,
+    main = "Monitored",
+  )
+  x <- dev.off()
 
-res_usage_path <- "assets/res_usage.png"
-png(filename = res_usage_path)
-plot(resources,
-  what = "resources",
-  metric = "usage",
-  names = "lane",
-  items = "system",
-  steps = TRUE
-)
-x <- dev.off()
-print(arrivals$waiting_time)
+  res_usage_path <- "assets/res_usage.png"
+  png(filename = res_usage_path)
+  plot(resources,
+    what = "resources",
+    metric = "usage",
+    names = "lane",
+    items = "system",
+    steps = TRUE
+  )
+  x <- dev.off()
+}
+
 if (.Platform$OS.type != "unix") {
   shell.exec(file.path(getwd(), activity_time_path))
   shell.exec(file.path(getwd(), waiting_time_path))
