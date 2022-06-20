@@ -82,7 +82,7 @@ hist(
   border = "#004900",
   breaks = 10,
 )
-x <- dev.off()
+t <- dev.off()
 
 
 waiting_time_path <- "assets/waiting_time.png"
@@ -95,7 +95,7 @@ hist(
   border = "#630035",
   breaks = 10,
 )
-x <- dev.off()
+t <- dev.off()
 
 
 total_time_path <- "assets/total_time.png"
@@ -108,7 +108,7 @@ hist(
   border = "#7d4900",
   breaks = 10,
 )
-x <- dev.off()
+t <- dev.off()
 data <- cbind(arrivals$total_time, arrivals$waiting_time)
 ticks <- c("time", "wait")
 total_time_box_path <- "assets/total_time_box.png"
@@ -122,7 +122,7 @@ boxplot(
   col = "#00b3a1"
 )
 axis(1, at = 1:2, labels = c("total time", "waiting time"))
-x <- dev.off()
+t <- dev.off()
 
 # Commenting reason: plots not working on WindowsOS
 # If you are unix-base, please uncomment
@@ -136,7 +136,7 @@ x <- dev.off()
 #   metric = NULL,
 #   main = "Monitored",
 # )
-# x <- dev.off()
+# t <- dev.off()
 
 # res_usage_path <- "assets/res_usage.png"
 # png(filename = res_usage_path)
@@ -147,7 +147,7 @@ x <- dev.off()
 #   items = "system",
 #   steps = TRUE
 # )
-# x <- dev.off()
+# t <- dev.off()
 
 
 # open files directory in explorer
