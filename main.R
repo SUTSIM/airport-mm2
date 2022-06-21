@@ -109,6 +109,7 @@ hist(
   breaks = 10,
 )
 t <- dev.off()
+
 data <- cbind(arrivals$total_time, arrivals$waiting_time)
 ticks <- c("time", "wait")
 total_time_box_path <- "assets/total_time_box.png"
